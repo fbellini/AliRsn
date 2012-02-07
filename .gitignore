@@ -1,0 +1,7 @@
+*~
+lib
+bin
+include
+PWG2/CMakeLists.txt
+cmake/cmake_AliRoot/
+build/*
