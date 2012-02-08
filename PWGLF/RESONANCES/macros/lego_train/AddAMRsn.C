@@ -37,7 +37,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    TString rsnLibName = "PWGLFresonances";
    if (gSystem->Getenv("ALICE_ROOT")) {
       TString alirootVersion = gSystem->GetFromPipe("aliroot --version | awk '{print $3}'");
-      if (alirootVersion<"v5-02-19-AN") rsnLibName = "PWG2resonances";
+      if (alirootVersion<"v5-02-19-AN" && alirootVersion.CompareTo("trunk")) rsnLibName = "PWG2resonances";
       if (rsnPar) { AliAnalysisAlien::SetupPar(rsnLibName.Data()); myAdditionalLibs += Form(" %s.par",rsnLibName.Data()); }
       else { gSystem->Load(Form("lib%s.so",rsnLibName.Data())); myAdditionalLibs += Form(" lib%s.so",rsnLibName.Data()); }
    }
