@@ -98,3 +98,5 @@ foreach(MODULE ${MODDIRS})
   add_dependencies(alilibs-static "${MODULE}-static")
   add_subdirectory(${MODULE})
 endforeach(MODULE)
+
+AliRsn_KDevelop()
