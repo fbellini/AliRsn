@@ -1,6 +1,6 @@
 # $Id: Makefile 50266 2011-06-24 09:37:46Z pulvir $
 
-include $(ROOTSYS)/test/Makefile.arch
+include $(ROOTSYS)/etc/Makefile.arch
 
 PACKAGE = PWGLFresonances
 
