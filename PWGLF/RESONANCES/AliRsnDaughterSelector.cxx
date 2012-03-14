@@ -253,6 +253,7 @@ void AliRsnDaughterSelector::ScanEvent(AliRsnEvent *ev)
 //
 
    Int_t id, is;
+   Int_t label;
    Int_t nSel, nTot = ev->GetAbsoluteSum();
    AliRsnDaughter check;
    TClonesArray *cutsArray = 0x0, *entryArray = 0x0;
@@ -282,7 +283,11 @@ void AliRsnDaughterSelector::ScanEvent(AliRsnEvent *ev)
          entryArray = &fEntryListsN;
       }
 
-      if (fUseLabelCheck && labelList.Contains(check.GetLabel())) continue;
+      // gets label for later use
+      label = check.GetLabel();
+
+      // check if label was not in labelList
+      if (fUseLabelCheck && labelList.Contains(label)) continue;
 
       // check with all cuts in that charge
       nSel = cutsArray->GetEntries();
@@ -291,11 +296,8 @@ void AliRsnDaughterSelector::ScanEvent(AliRsnEvent *ev)
          if (cuts->IsSelected(&check)) {
             el = (TEntryList *)entryArray->At(is);
             el->Enter(id);
-            if (fUseLabelCheck) labelList.Enter(check.GetLabel());
+            if (fUseLabelCheck && label >= 0) labelList.Enter(label);
          }
       }
    }
-
-   //Print();
 }
-
