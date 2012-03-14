@@ -5,3 +5,5 @@ include
 PWGLF/CMakeLists.txt
 cmake/cmake_AliRoot/
 build/*
+.kdev_include_paths
+*.kdev4
