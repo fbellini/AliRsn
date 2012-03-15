@@ -9,6 +9,8 @@
 
 #pragma link C++ class AliRsnTarget+;
 #pragma link C++ class AliRsnValue+;
+#pragma link C++ class AliRsnAction+;
+
 #pragma link C++ class AliRsnCut+;
 
 #pragma link C++ class AliRsnValueDaughter+;
