@@ -177,11 +177,13 @@ void AliRsnDaughterSelector::InitActions(TList *list)
 // Initialize output for post actiosn
 //
    if (!list) return;
+   TObjArray objects;
+   objects.Add(this);
 
    TIter next(&fActions);
    AliRsnAction *action;
    while ((action = (AliRsnAction *)next())) {
-      action->InitAction(list);
+      action->InitAction(list,&objects);
    }
 
 }
@@ -197,7 +199,6 @@ void AliRsnDaughterSelector::ExecActions(AliRsnEvent *ev)
    
    TObjArray objects;
    objects.Add(ev);
-   objects.Add(this);
 
    TIter next(&fActions);
    AliRsnAction *action;
