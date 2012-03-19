@@ -14,8 +14,8 @@ void AddRsnPairsLambda(AliAnalysisTaskSE *task,
    Printf("id1=%d id2=%d",listID1,listID2);
 
    // retrieve mass from PDG database
-   Int_t         pdg  = 3124;
-   Double_t mass = 1520.0;
+   Int_t    pdg  = 3124;
+   Double_t mass = 1.5195;
    
    Bool_t valid;
    Int_t isRsnMini = AliAnalysisManager::GetGlobalInt("rsnUseMiniPackage",valid);
