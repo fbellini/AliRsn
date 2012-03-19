@@ -56,15 +56,20 @@ TList *RsnManager() {
 
 
    // KStar
-//    //
-//    //    listRsn->Add(new TNamed("KStar","KStar2010:mon"));
-//    //    listRsn->Add(new TNamed("KStar","BPID:mon"));
 //
-//    //    listRsn->Add(new TNamed("KStar","KStar:mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:TPCTOFpidDefaultKstarPP2010_mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid1point5sigma_mon"));
-//    //    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
+//    listRsn->Add(new TNamed("KStar","KStar2010:mon"));
+//    listRsn->Add(new TNamed("KStar","BPID:mon"));
+//    listRsn->Add(new TNamed("KStar","KStar:mon"));
+//    listRsn->Add(new TNamed("KStar","KStar:TPCTOFpidDefaultKstarPP2010_mon"));
+//    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid1point5sigma_mon"));
+//    listRsn->Add(new TNamed("KStar","KStar:FastTPCpid2sigma_mon"));
 
+
+   // Lambda
+//    listRsn->Add(new TNamed("Lambda","Lambda"));
+//    listRsn->Add(new TNamed("Lambda","Lambda:TPCPsigma2_TPCKsigma1"));
+
+   
    //============= ONLY for GRID ====================
    TString dsConfig;
 
