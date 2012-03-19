@@ -31,7 +31,7 @@ void AddRsnPairsRho(AliAnalysisTaskSE *task,
       AddPair(task,isMC,isMixing,pType1,listID1,pType2,listID2,pdg,mass,cutsEvent,cutsPair,suffix);
    }
 }
-void AddPairOutputPhi(AliRsnLoopPair *pair)
+void AddPairOutputRho(AliRsnLoopPair *pair)
 {
    Bool_t valid;
    Int_t isFullOutput = AliAnalysisManager::GetGlobalInt("rsnOutputFull",valid);
@@ -59,7 +59,7 @@ void AddPairOutputPhi(AliRsnLoopPair *pair)
    pair->AddOutput(outPair);
 }
 
-void AddPairOutputMiniPhi(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, AliPID::EParticleType pType1,Int_t listID1, AliPID::EParticleType pType2,Int_t listID2, Int_t pdgMother,Double_t massMother, AliRsnCutSet *cutsPair=0,TString suffix = "") {
+void AddPairOutputMiniRho(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, AliPID::EParticleType pType1,Int_t listID1, AliPID::EParticleType pType2,Int_t listID2, Int_t pdgMother,Double_t massMother, AliRsnCutSet *cutsPair=0,TString suffix = "") {
 
    Bool_t valid;
    Int_t isFullOutput = AliAnalysisManager::GetGlobalInt("rsnOutputFull",valid);
