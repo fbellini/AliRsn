@@ -16,7 +16,7 @@ mkdir -p $HOME/ALICE/
 cd $HOME/ALICE/
 git clone git://github.com/mvala/AliRsn.git
 
-# to get lates source
+# to get latest source
 cd $HOME/ALICE/AliRsn
 git pull
 

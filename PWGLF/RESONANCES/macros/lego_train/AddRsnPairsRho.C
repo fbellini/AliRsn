@@ -24,7 +24,7 @@ void AddRsnPairsRho(AliAnalysisTaskSE *task,
    Int_t isRsnMini = AliAnalysisManager::GetGlobalInt("rsnUseMiniPackage",valid);
 
    if (isRsnMini) {
-      AddPairOutputMiniPhi(task,isMC,isMixing,pType1,listID1,pType2,listID2,pdg,mass,cutsPair,suffix);
+      AddPairOutputMiniRho(task,isMC,isMixing,pType1,listID1,pType2,listID2,pdg,mass,cutsPair,suffix);
    } else {
       // this function is common and it is located in RsnConfig.C
       // as ouptup AddPairOutputPhi from this macro will be taken
