@@ -1,3 +1,5 @@
+#ifndef __CINT__
+#endif
 Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",TString input="aod",TString inputMC="", TString postfix = "",TString idStr="0")
 {
 
