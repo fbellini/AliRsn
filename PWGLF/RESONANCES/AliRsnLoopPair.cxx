@@ -124,10 +124,10 @@ Bool_t AliRsnLoopPair::Init(const char *prefix, TList *list)
    AliInfo(Form("[%s] Initialization", GetName()));
 
    TString name(prefix);
-   name += '_';
+   name += '.';
    name += GetName();
 //    if (IsMixed()) name.Prepend("mix_");
-   if (IsMixed()) name.Append("_mix");
+   if (IsMixed()) name.Append("Mix");
 
    return AliRsnLoop::Init(name.Data(), list);
 }
