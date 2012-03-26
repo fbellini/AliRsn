@@ -233,6 +233,9 @@ Bool_t AddPair(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, AliPID::EPa
       if (commonEventCuts) lp->SetEventCuts(commonEventCuts);
       if (name.Contains("phi")) AddPairOutputPhi(lp);
       else if (name.Contains("kstar")) AddPairOutputKStar(lp);
+      else if (name.Contains("rho")) AddPairOutputRho(lp);
+      else if (name.Contains("lambda")) AddPairOutputLambda(lp);
+      else if (name.Contains("sigma")) AddPairOutputSigma(lp);
       else continue;
       ((AliRsnAnalysisTask *)task)->AddLoop(lp);
    }
@@ -445,7 +448,7 @@ void AddMonitorOutput(TObjArray *mon=0,TString opt="",AliRsnLoopDaughter *lm=0)
    if (mon) mon->Add(outMonitorPTvsMult);
    if (lm) lm->AddOutput(outMonitorPTvsMult);
 
-   
+
 //    if (lm) lm->SetTrueMC(kTRUE);
 }
 
