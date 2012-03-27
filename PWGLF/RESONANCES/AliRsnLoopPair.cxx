@@ -126,9 +126,7 @@ Bool_t AliRsnLoopPair::Init(const char *prefix, TList *list)
    TString name(prefix);
    name += '.';
    name += GetName();
-//    if (IsMixed()) name.Prepend("mix_");
-//    if (IsMixed()) name.Append("Mix");
-   if (IsMixed()) name.Append("_mix");
+//    if (IsMixed()) name.Append("_mix");
 
    return AliRsnLoop::Init(name.Data(), list);
 }
