@@ -46,8 +46,8 @@ endif
 
 ifeq ($(PLATFORM),macosx)
 ROOTLIBDIR     := $(shell $(RC) --libdir)
-ALIROOTLIBDIR  := $(ALICE_ROOT)/lib/tgt_
-ALIROOTLIBDIR  += $(shell $(RC) --arch)
+ALIROOTLIBDIR  := $(ALICE_ROOT)/lib/tgt_$(shell $(RC) --arch)
+# ALIROOTLIBDIR  +=
 
 ifeq ($(PACKAGE),STEERBase)
    PACKLDFLAGS = -L$(ROOTLIBDIR)  -lVMC -lMinuit -lEG -lGeom
