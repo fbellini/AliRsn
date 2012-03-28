@@ -46,33 +46,36 @@ endif
 
 ifeq ($(PLATFORM),macosx)
 ROOTLIBDIR     := $(shell $(RC) --libdir)
+ALIROOTLIBDIR  := $(ALICE_ROOT)/lib/tgt_
+ALIROOTLIBDIR  += $(shell $(RC) --arch)
+
 ifeq ($(PACKAGE),STEERBase)
    PACKLDFLAGS = -L$(ROOTLIBDIR)  -lVMC -lMinuit -lEG -lGeom
 endif
 ifeq ($(PACKAGE),ESD)
-   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lVMC -lEG -lGeom
+   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lVMC -lEG -lGeom
 endif
 ifeq ($(PACKAGE),AOD)
-   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lEG -lGeom
+   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lEG -lGeom
 endif
 ifeq ($(PACKAGE),CDB)
-   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
+   PACKLDFLAGS = $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
 endif
 ifeq ($(PACKAGE),ANALYSIS)
-   PACKLDFLAGS =  $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
+   PACKLDFLAGS =  $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
 endif
 ifeq ($(PACKAGE),ANALYSISalice)
-   PACKLDFLAGS =  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
+   PACKLDFLAGS =  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lMinuit -lTree -lXMLParser
 endif
 ifeq ($(PACKAGE),EventMixng)
-   PACKLDFLAGS =  $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lTree
+   PACKLDFLAGS =  $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lTree
 endif
 ifeq ($(PACKAGE),PWGLFresonances)
-   PACKLDFLAGS =  $(EventMixng_LIBS) $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lTree
+   PACKLDFLAGS =  $(EventMixng_LIBS) $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lTree
 endif
 
 ifeq ($(PACKAGE),PWGLFresonancesdev)
-   PACKLDFLAGS =  $(PWGLFresonances_LIBS) $(EventMixng_LIBS) $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ROOTLIBDIR) -lTree
+   PACKLDFLAGS =  $(PWGLFresonances_LIBS) $(EventMixng_LIBS) $(ANALYSISalice_LIBS)  $(ANALYSIS_LIBS) $(AOD_LIBS) $(ESD_LIBS) $(STEERBase_LIBS) -L$(ALIROOTLIBDIR) -L$(ROOTLIBDIR) -lTree
 endif
 
 endif
