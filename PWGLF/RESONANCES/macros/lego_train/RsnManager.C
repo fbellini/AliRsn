@@ -1,6 +1,7 @@
 TList *RsnManager() {
 
-   Int_t isPP           = 1; // in GRID case it will be overwriten (look bellow)
+   Int_t isESD          = 0;
+   Int_t isPP           = 1;
    Int_t useRsnMini     = 1;
 
    Int_t useMixing      = 0;
@@ -108,6 +109,7 @@ TList *RsnManager() {
 
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainPath",legoTrainPath.Data());
 
+   AliAnalysisManager::SetGlobalInt("rsnIsESD",isESD);
    AliAnalysisManager::SetGlobalInt("rsnIsPP",isPP);
 
    // use parfiles instead of libs
