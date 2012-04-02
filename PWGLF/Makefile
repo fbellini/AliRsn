@@ -59,6 +59,13 @@ else
    ALICELIBS += -lEventMixing
 endif
 
+ifneq ($(CORRFW_INCLUDE),)
+   ALICEINC += -I../$(CORRFW_INCLUDE)
+   ALIPARLIBS += $(CORRFW_LIBS)
+else
+   ALICELIBS += -lCORRFW
+endif
+
 # ifneq ($(PWGLFresonances_INCLUDE),)
 #    ALICEINC += -I../$(PWGLFresonances_INCLUDE)
 #    ALIPARLIBS += $(PWGLFresonances_LIBS)
