@@ -1,4 +1,5 @@
 #ifndef __CINT__
+#include <Rtypes.h>
 #endif
 Int_t AddRsnDaughterCutsKStarNsigma(AliPID::EParticleType type1,AliPID::EParticleType type2,TString opt,Bool_t isRsnMini=kFALSE,AliRsnInputHandler *rsnIH=0,AliAnalysisTaskSE *task=0)
 {
@@ -20,29 +21,62 @@ Int_t AddRsnDaughterCutsKStarNsigma(AliPID::EParticleType type1,AliPID::EParticl
    //  Define single cutsP
    //---------------------------------------------
 
-   Printf("AliRsnCutPIDNSigma Option : %s",opt.Data());
+   Printf("AddRsnDaughterCutsKStarNsigma Option : %s",opt.Data());
 
+
+   // default values
    Double_t nSigmaTPC_Pi=3.0;
    Double_t nSigmaTPC_K=3.0;
    Double_t nSigmaTOF_Pi=3.0;
    Double_t nSigmaTOF_K=3.0;
    Double_t etaRange=0.8;
 
-   if (opt.Contains("TPCPsigma1")) nSigmaTPC_Pi = 1.0;
-   if (opt.Contains("TPCPsigma2")) nSigmaTPC_Pi = 2.0;
-   if (opt.Contains("TPCPsigma3")) nSigmaTPC_Pi = 3.0;
+   Bool_t useTPC_Pi=kFALSE;
+   Bool_t useTOF_Pi=kFALSE;
+   Bool_t useTPC_K=kFALSE;
+   Bool_t useTOF_K=kFALSE;
 
-   if (opt.Contains("TPCKsigma1")) nSigmaTPC_K = 1.0;
-   if (opt.Contains("TPCKsigma2")) nSigmaTPC_K = 2.0;
-   if (opt.Contains("TPCKsigma3")) nSigmaTPC_K = 3.0;
+   if (opt.Contains("qualityonly")) {
+      useTPC_Pi=kFALSE;
+      useTOF_Pi=kFALSE;
+      useTPC_K=kFALSE;
+      useTOF_K=kFALSE;
+   } else if (!opt.Contains("nsig")) {
+      useTPC_Pi=kTRUE;
+      useTOF_Pi=kTRUE;
+      useTPC_K=kTRUE;
+      useTOF_K=kTRUE;
+   }
 
-   if (opt.Contains("TOFPsigma1")) nSigmaTOF_Pi = 1.0;
-   if (opt.Contains("TOFPsigma2")) nSigmaTOF_Pi = 2.0;
-   if (opt.Contains("TOFPsigma3")) nSigmaTOF_Pi = 3.0;
+   if (opt.Contains("PiTPCnsig")) useTPC_Pi=kTRUE;
+   if (opt.Contains("PiTOFnsig")) useTOF_Pi=kTRUE;
+   if (opt.Contains("KTPCnsig"))  useTPC_K=kTRUE;
+   if (opt.Contains("KTOFnsig"))  useTOF_K=kTRUE;
 
-   if (opt.Contains("TOFKsigma1")) nSigmaTOF_K = 1.0;
-   if (opt.Contains("TOFKsigma2")) nSigmaTOF_K = 2.0;
-   if (opt.Contains("TOFKsigma3")) nSigmaTOF_K = 3.0;
+   if (opt.Contains("PiTPCnsig10")) nSigmaTPC_Pi = 1.0;
+   if (opt.Contains("PiTPCnsig15")) nSigmaTPC_Pi = 1.5;
+   if (opt.Contains("PiTPCnsig20")) nSigmaTPC_Pi = 2.0;
+   if (opt.Contains("PiTPCnsig25")) nSigmaTPC_Pi = 2.5;
+   if (opt.Contains("PiTPCnsig30")) nSigmaTPC_Pi = 3.0;
+
+   if (opt.Contains("KTPCnsig10")) nSigmaTPC_K = 1.0;
+   if (opt.Contains("KTPCnsig15")) nSigmaTPC_K = 1.5;
+   if (opt.Contains("KTPCnsig20")) nSigmaTPC_K = 2.0;
+   if (opt.Contains("KTPCnsig25")) nSigmaTPC_K = 2.5;
+   if (opt.Contains("KTPCnsig30")) nSigmaTPC_K = 3.0;
+
+   if (opt.Contains("PiTOFnsig10")) nSigmaTOF_Pi = 1.0;
+   if (opt.Contains("PiTOFnsig15")) nSigmaTOF_Pi = 1.5;
+   if (opt.Contains("PiTOFnsig20")) nSigmaTOF_Pi = 2.0;
+   if (opt.Contains("PiTOFnsig25")) nSigmaTOF_Pi = 2.5;
+   if (opt.Contains("PiTOFnsig30")) nSigmaTOF_Pi = 3.0;
+
+   if (opt.Contains("KTOFnsig10")) nSigmaTOF_K = 1.0;
+   if (opt.Contains("KTOFnsig15")) nSigmaTOF_K = 1.5;
+   if (opt.Contains("KTOFnsig20")) nSigmaTOF_K = 2.0;
+   if (opt.Contains("KTOFnsig25")) nSigmaTOF_K = 2.5;
+   if (opt.Contains("KTOFnsig30")) nSigmaTOF_K = 3.0;
+
 
    Bool_t usePDG=kFALSE;
    if (opt.Contains("pdg")) {
@@ -56,76 +90,33 @@ Int_t AddRsnDaughterCutsKStarNsigma(AliPID::EParticleType type1,AliPID::EParticl
       useEta = kTRUE;
    }
 
-   // PROTON SETTINGS ===========================================
-
-   TString scheme="";
-   TString cutname = "protonLambda";
-   if (!opt.IsNull()) cutname += Form("_%s",opt.Data());
-   AliRsnCutSet *cutsP = new AliRsnCutSet(cutname.Data(), AliRsnTarget::kDaughter);
-   
-   AliRsnCutTrackQuality *qualityCutP = new AliRsnCutTrackQuality("cutQuatity{");
-   qualityCutP->SetDefaults2010();
-   cutsP->AddCut(qualityCutP);
-   if (!scheme.IsNull()) scheme += "&";
-   scheme += qualityCutP->GetName();
-   
-   AliRsnCutPIDNSigma *cutPTPC = new AliRsnCutPIDNSigma("cutNSigmaTPCP",AliPID::kPion,AliRsnCutPIDNSigma::kTPC);
-   cutPTPC->SinglePIDRange(nSigmaTPC_Pi);
-   cutsP->AddCut(cutPTPC);
-   if (!scheme.IsNull()) scheme += "&";
-   scheme += cutPTPC->GetName();
-
-   AliRsnCutPIDNSigma *cutPTOF = new AliRsnCutPIDNSigma("cutNSigmaTOFP",AliPID::kPion,AliRsnCutPIDNSigma::kTOF);
-   cutPTOF->SinglePIDRange(nSigmaTOF_Pi);
-   cutsP->AddCut(cutPTOF);
-   if (!scheme.IsNull()) scheme += "&";
-   scheme += cutPTOF->GetName();
-
-   if (useEta) {
-      AliRsnValueDaughter *valEtaP = new AliRsnValueDaughter(Form("val%sETA%s",AliPID::ParticleName(type1),opt.Data()),AliRsnValueDaughter::kEta);
-      AliRsnCutValue *cutEtaP = new AliRsnCutValue(Form("cut%sETA%s",AliPID::ParticleName(type1),opt.Data()),-etaRange,etaRange);
-      cutEtaP->SetTargetType(AliRsnTarget::kDaughter);
-      cutEtaP->SetValueObj(valEtaP);
-      cutsP->AddCut(cutEtaP);
-      if (!scheme.IsNull()) scheme += "&";
-      scheme += cutEtaP->GetName();
-   }
-   if (usePDG) {
-      AliRsnCutPID *cutPDGP = new AliRsnCutPID(Form("cut%sPDG%s",AliPID::ParticleName(type1),opt.Data()),type1,0.0,kTRUE);
-      cutsP->AddCut(cutPDGP);
-      if (!scheme.IsNull()) scheme += "&";
-      scheme += cutPDGP->GetName();
-   }
-
-   Printf ("CUT Scheme for PROTON is '%s'",scheme.Data());
-   cutsP->SetCutScheme(scheme.Data());
-
-   // END PROTON =======================================
-   
    // KAON SETTINGS =======================================
-   scheme="";
-   cutname = "kaonLambda";
+   TString scheme="";
+   TString cutname = "K_Kstar";
    if (!opt.IsNull()) cutname += Form("_%s",opt.Data());
    AliRsnCutSet *cutsK = new AliRsnCutSet(cutname.Data(), AliRsnTarget::kDaughter);
-   
+
    AliRsnCutTrackQuality *qualityCutK = new AliRsnCutTrackQuality("cutQuatityK");
    qualityCutK->SetDefaults2010();
    cutsK->AddCut(qualityCutK);
    if (!scheme.IsNull()) scheme += "&";
    scheme += qualityCutK->GetName();
-   
-   AliRsnCutPIDNSigma *cutKTPC = new AliRsnCutPIDNSigma("cutNSigmaTPCK",AliPID::kKaon,AliRsnCutPIDNSigma::kTPC);
-   cutKTPC->SinglePIDRange(nSigmaTPC_K);
-   cutsK->AddCut(cutKTPC);
-   if (!scheme.IsNull()) scheme += "&";
-   scheme += cutKTPC->GetName();
 
-   AliRsnCutPIDNSigma *cutKTOF = new AliRsnCutPIDNSigma("cutNSigmaTOFK",AliPID::kKaon,AliRsnCutPIDNSigma::kTOF);
-   cutKTOF->SinglePIDRange(nSigmaTOF_K);
-   cutsK->AddCut(cutKTOF);
-   if (!scheme.IsNull()) scheme += "&";
-   scheme += cutKTOF->GetName();
+   if (useTPC_K) {
+      AliRsnCutPIDNSigma *cutKTPC = new AliRsnCutPIDNSigma("cutNSigmaTPCK",AliPID::kKaon,AliRsnCutPIDNSigma::kTPC);
+      cutKTPC->SinglePIDRange(nSigmaTPC_K);
+      cutsK->AddCut(cutKTPC);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutKTPC->GetName();
+   }
 
+   if (useTOF_K) {
+      AliRsnCutPIDNSigma *cutKTOF = new AliRsnCutPIDNSigma("cutNSigmaTOFK",AliPID::kKaon,AliRsnCutPIDNSigma::kTOF);
+      cutKTOF->SinglePIDRange(nSigmaTOF_K);
+      cutsK->AddCut(cutKTOF);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutKTOF->GetName();
+   }
    if (useEta) {
       AliRsnValueDaughter *valEtaK = new AliRsnValueDaughter(Form("val%sETA%s",AliPID::ParticleName(type2),opt.Data()),AliRsnValueDaughter::kEta);
       AliRsnCutValue *cutEtaK = new AliRsnCutValue(Form("cut%sETA%s",AliPID::ParticleName(type2),opt.Data()),-etaRange,etaRange);
@@ -146,7 +137,56 @@ Int_t AddRsnDaughterCutsKStarNsigma(AliPID::EParticleType type1,AliPID::EParticl
    cutsK->SetCutScheme(scheme.Data());
 
    // END KAON =======================================
-   
+
+   // Pion SETTINGS ===========================================
+
+   scheme="";
+   cutname = "Pi_Kstar";
+   if (!opt.IsNull()) cutname += Form("_%s",opt.Data());
+   AliRsnCutSet *cutsP = new AliRsnCutSet(cutname.Data(), AliRsnTarget::kDaughter);
+
+   AliRsnCutTrackQuality *qualityCutPi = new AliRsnCutTrackQuality("cutQuatityPi");
+   qualityCutPi->SetDefaults2010();
+   cutsP->AddCut(qualityCutPi);
+   if (!scheme.IsNull()) scheme += "&";
+   scheme += qualityCutPi->GetName();
+   if (useTPC_Pi) {
+      AliRsnCutPIDNSigma *cutPiTPC = new AliRsnCutPIDNSigma("cutNSigmaTPCPi",AliPID::kPion,AliRsnCutPIDNSigma::kTPC);
+      cutPiTPC->SinglePIDRange(nSigmaTPC_Pi);
+      cutsP->AddCut(cutPiTPC);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutPiTPC->GetName();
+   }
+   if (useTOF_Pi) {
+      AliRsnCutPIDNSigma *cutPiTOF = new AliRsnCutPIDNSigma("cutNSigmaTOFPi",AliPID::kPion,AliRsnCutPIDNSigma::kTOF);
+      cutPiTOF->SinglePIDRange(nSigmaTOF_Pi);
+      cutsP->AddCut(cutPiTOF);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutPiTOF->GetName();
+   }
+   if (useEta) {
+      AliRsnValueDaughter *valEtaP = new AliRsnValueDaughter(Form("val%sETA%s",AliPID::ParticleName(type1),opt.Data()),AliRsnValueDaughter::kEta);
+      AliRsnCutValue *cutEtaP = new AliRsnCutValue(Form("cut%sETA%s",AliPID::ParticleName(type1),opt.Data()),-etaRange,etaRange);
+      cutEtaP->SetTargetType(AliRsnTarget::kDaughter);
+      cutEtaP->SetValueObj(valEtaP);
+      cutsP->AddCut(cutEtaP);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutEtaP->GetName();
+   }
+   if (usePDG) {
+      AliRsnCutPID *cutPDGP = new AliRsnCutPID(Form("cut%sPDG%s",AliPID::ParticleName(type1),opt.Data()),type1,0.0,kTRUE);
+      cutsP->AddCut(cutPDGP);
+      if (!scheme.IsNull()) scheme += "&";
+      scheme += cutPDGP->GetName();
+   }
+
+   Printf ("CUT Scheme for PROTON is '%s'",scheme.Data());
+   cutsP->SetCutScheme(scheme.Data());
+
+   // END PROTON =======================================
+
+
+
    if (opt.Contains("mon")) {
       AddMonitorOutput(cutsP->GetMonitorOutput(),opt);
       AddMonitorOutput(cutsK->GetMonitorOutput(),opt);
@@ -154,8 +194,9 @@ Int_t AddRsnDaughterCutsKStarNsigma(AliPID::EParticleType type1,AliPID::EParticl
    if (isRsnMini) {
       AliRsnMiniAnalysisTask *taskRsnMini = dynamic_cast<AliRsnMiniAnalysisTask *>(task);
       if (taskRsnMini) {
-         taskRsnMini->AddTrackCuts(cutsP);
          taskRsnMini->AddTrackCuts(cutsK);
+         taskRsnMini->AddTrackCuts(cutsP);
+
       }
    } else {
       AliRsnDaughterSelector *sel = rsnIH->GetSelector();
