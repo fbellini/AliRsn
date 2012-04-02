@@ -8,9 +8,18 @@ Bool_t AddRsnToManagerRho(TList *listRsn) {
    // string "<Name>:mon" means that it will add monitoring histograms from cuts
    // Note : for now you have to set gRsnUseMiniPackage = 0 to have mon histograms
    //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
-   
-   listRsn->Add(new TNamed("Rho","Rho"));
-//    listRsn->Add(new TNamed("Rho","Rho:tpconly_TPCsigma1"));
+
+   // default NSigma -> TPC=3 and TOF=3
+   listRsn->Add(new TNamed("Rho","RhoNSigma"));
+
+// //    qualityonly
+//    listRsn->Add(new TNamed("Rho","RhoNSigma:qualityonly"));
+// 
+// //    TPC only (Nsigma=1.5)
+//    listRsn->Add(new TNamed("Rho","RhoNSigma:PiTPCnsig15"));
+// 
+// //    TOF only (NSigma=2.0)
+//    listRsn->Add(new TNamed("Rho","RhoNSigma:PiTOFnsig20"));
 
    return kTRUE;
 }
