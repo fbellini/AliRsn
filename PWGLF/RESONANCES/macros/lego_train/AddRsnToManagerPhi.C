@@ -9,12 +9,18 @@ Bool_t AddRsnToManagerPhi(TList *listRsn) {
    // Note : for now you have to set gRsnUseMiniPackage = 0 to have mon histograms
    //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
 
-   listRsn->Add(new TNamed("Phi","PhiNsigma"));
-//    listRsn->Add(new TNamed("Phi","PhiNsigma:qualityonly"));
-//    listRsn->Add(new TNamed("Phi","PhiNsigma:KTPCnsig10"));
-//    listRsn->Add(new TNamed("Phi","PhiNsigma:KTPCnsig25"));
-   
-   //    listRsn->Add(new TNamed("Phi","PhiDev"));
+   // default NSigma -> TPC=3 and TOF=3
+   listRsn->Add(new TNamed("Phi","PhiNSigma"));
+
+// //    qualityonly
+//    listRsn->Add(new TNamed("Phi","PhiNSigma:qualityonly"));
+//
+// //    TPC only (Nsigma=1.5)
+//    listRsn->Add(new TNamed("Phi","PhiNSigma:KTPCnsig15"));
+//
+// //    TOF only (NSigma=2.0)
+//    listRsn->Add(new TNamed("Phi","PhiNSigma:KTOFnsig20"));
+
 
    return kTRUE;
 }
