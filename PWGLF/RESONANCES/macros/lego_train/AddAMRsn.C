@@ -16,10 +16,11 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    Int_t rsnParDev = AliAnalysisManager::GetGlobalInt("rsnUseRSNParDev",valid);
    if (eventMixinPar) rsnPar = 1;
    if (rsnPar&&rsnParDev>=0) rsnParDev=1;
-   
+
    Int_t pidResponse = AliAnalysisManager::GetGlobalInt("rsnUsePIDResponse",valid);
    Int_t useRsnIH = AliAnalysisManager::GetGlobalInt("rsnUseRsnInputHandler",valid);
    Int_t physSel = AliAnalysisManager::GetGlobalInt("rsnUsePhysSel",valid);
+   Int_t useCentralityTask = AliAnalysisManager::GetGlobalInt("rsnUseCentralityTask",valid);
    Int_t splitMgrByTask = AliAnalysisManager::GetGlobalInt("rsnSplitMgrByTasks",valid);
 
    Int_t useMixing = AliAnalysisManager::GetGlobalInt("rsnUseMixing",valid);
@@ -45,12 +46,12 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
       if (rsnPar) { AliAnalysisAlien::SetupPar(rsnLibName.Data()); myAdditionalLibs += Form(" %s.par",rsnLibName.Data()); }
       else { gSystem->Load(Form("lib%s.so",rsnLibName.Data())); myAdditionalLibs += Form(" lib%s.so",rsnLibName.Data()); }
    }
-   
 
-   
+
+
    if (rsnParDev>=0) {
-     if (rsnParDev) { AliAnalysisAlien::SetupPar("PWGLFresonancesdev"); myAdditionalLibs += " PWGLFresonancesdev.par"; }
-     else { gSystem->Load("libPWGLFresonancesdev.so"); myAdditionalLibs += " libPWGLFresonancesdev.so"; }
+      if (rsnParDev) { AliAnalysisAlien::SetupPar("PWGLFresonancesdev"); myAdditionalLibs += " PWGLFresonancesdev.par"; }
+      else { gSystem->Load("libPWGLFresonancesdev.so"); myAdditionalLibs += " libPWGLFresonancesdev.so"; }
    }
    analysisPlugin->SetAdditionalLibs(myAdditionalLibs.Data());
 
@@ -82,7 +83,12 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
          if (aodIH) aodIH->SetEventSelection(multiIH->GetEventSelection());
       }
    }
-   
+
+   if (useCentralityTask) {
+      gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskCentrality.C");
+      AliCentralitySelectionTask *centralityTask = AddTaskCentrality(kFALSE);
+   }
+
    // load and run AddTask macro
    if (!RsnLoadMacro("AddRsnAnalysisTask.C")) return kFALSE;
    if (!RsnLoadMacro("RsnConfig.C")) return kFALSE;

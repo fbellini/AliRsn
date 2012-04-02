@@ -147,10 +147,9 @@ Bool_t AddPair(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, AliPID::EPa
 
    Bool_t valid;
    Int_t useMCMomentum = AliAnalysisManager::GetGlobalInt("rsnUseMCMomentum",valid);
-
    Bool_t typeSame = (pType1 == pType2);
 
-   //    Printf("------------- id1=%d id2=%d",listID1,listID2);
+   Printf("------------- id1=%d id2=%d",pType1,pType2);
 
    TList *listLoops = new TList;
 
@@ -164,61 +163,61 @@ Bool_t AddPair(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, AliPID::EPa
    AliRsnLoopPair *lp = 0;
 
    // sets +-
-   lp = new AliRsnLoopPair(Form("%s.UnlikePM", name.Data()), pairDefPM, kFALSE);
+   lp = new AliRsnLoopPair(Form("%s.RecPM", name.Data()), pairDefPM, kFALSE);
    listLoops->Add(lp);
 
    if (!typeSame) {
-      lp = new AliRsnLoopPair(Form("%s.UnlikeMP", name.Data()), pairDefMP, kFALSE);
+      lp = new AliRsnLoopPair(Form("%s.RecMP", name.Data()), pairDefMP, kFALSE);
       listLoops->Add(lp);
    }
 
    // sets +- TRUE pairs
    if (isMC) {
-      lp = new AliRsnLoopPair(Form("%s.UnlikePM_TRUE", name.Data()), pairDefPM, kFALSE);
+      lp = new AliRsnLoopPair(Form("%s.RecPM_RecMother", name.Data()), pairDefPM, kFALSE);
       lp->SetOnlyTrue(kTRUE);
       lp->SetCheckDecay(kTRUE);
       listLoops->Add(lp);
       if (!typeSame) {
-         lp = new AliRsnLoopPair(Form("%s.UnlikeMP_TRUE", name.Data()), pairDefMP, kFALSE);
+         lp = new AliRsnLoopPair(Form("%s.RecMP_RecMother", name.Data()), pairDefMP, kFALSE);
          lp->SetOnlyTrue(kTRUE);
          lp->SetCheckDecay(kTRUE);
          listLoops->Add(lp);
       }
       // sets +- TRUE paris (MC is used for momentum)
-      lp = new AliRsnLoopPair(Form("%s.UnlikePM_TRUE_MC", name.Data()), pairDefPM, kFALSE);
+      lp = new AliRsnLoopPair(Form("%s.GenPM_RecMother", name.Data()), pairDefPM, kFALSE);
       lp->SetTrueMC(kTRUE);
       listLoops->Add(lp);
       if (!typeSame) {
          // sets +- TRUE paris (MC is used for momentum)
-         lp = new AliRsnLoopPair(Form("%s.UnlikeMP_TRUE_MC", name.Data()), pairDefMP, kFALSE);
+         lp = new AliRsnLoopPair(Form("%s.GenMP_RecMother", name.Data()), pairDefMP, kFALSE);
          lp->SetTrueMC(kTRUE);
          listLoops->Add(lp);
       }
    }
 
    // sets ++
-   lp = new AliRsnLoopPair(Form("%s.LikePP", name.Data()), pairDefPP, kFALSE);
+   lp = new AliRsnLoopPair(Form("%s.RecPP", name.Data()), pairDefPP, kFALSE);
    listLoops->Add(lp);
 
    // sets --
-   lp = new AliRsnLoopPair(Form("%s.LikeMM", name.Data()), pairDefMM, kFALSE);
+   lp = new AliRsnLoopPair(Form("%s.RecMM", name.Data()), pairDefMM, kFALSE);
    listLoops->Add(lp);
 
    if (isMixing) {
       // sets +- Mixing (NOT mini)
-      lp = new AliRsnLoopPair(Form("%s.UnlikePM", name.Data()), pairDefPM, kTRUE);
+      lp = new AliRsnLoopPair(Form("%s.RecPM_mix", name.Data()), pairDefPM, kTRUE);
       listLoops->Add(lp);
 
       // sets -+ Mixing (NOT mini)
-      lp = new AliRsnLoopPair(Form("%s.UnlikeMP", name.Data()), pairDefMP, kTRUE);
+      lp = new AliRsnLoopPair(Form("%s.RecMP_mix", name.Data()), pairDefMP, kTRUE);
       listLoops->Add(lp);
 
       // sets ++ Mixing (NOT mini)
-      lp = new AliRsnLoopPair(Form("%s.LikePP", name.Data()), pairDefPP, kTRUE);
+      lp = new AliRsnLoopPair(Form("%s.RecPP_mix", name.Data()), pairDefPP, kTRUE);
       listLoops->Add(lp);
 
       // sets -- Mixing (NOT mini)
-      lp = new AliRsnLoopPair(Form("%s.LikeMM", name.Data()), pairDefMM, kTRUE);
+      lp = new AliRsnLoopPair(Form("%s.RecMM_mix", name.Data()), pairDefMM, kTRUE);
       listLoops->Add(lp);
    }
 
