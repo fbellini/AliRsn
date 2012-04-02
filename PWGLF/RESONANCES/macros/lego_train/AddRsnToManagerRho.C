@@ -10,16 +10,16 @@ Bool_t AddRsnToManagerRho(TList *listRsn) {
    //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
 
    // default NSigma -> TPC=3 and TOF=3
-   listRsn->Add(new TNamed("Rho","RhoNSigma"));
+   listRsn->Add(new TNamed("Rho","RhoNsigma"));
 
 // //    qualityonly
-//    listRsn->Add(new TNamed("Rho","RhoNSigma:qualityonly"));
+//    listRsn->Add(new TNamed("Rho","RhoNsigma:qualityonly"));
 // 
 // //    TPC only (Nsigma=1.5)
-//    listRsn->Add(new TNamed("Rho","RhoNSigma:PiTPCnsig15"));
+//    listRsn->Add(new TNamed("Rho","RhoNsigma:PiTPCnsig15"));
 // 
 // //    TOF only (NSigma=2.0)
-//    listRsn->Add(new TNamed("Rho","RhoNSigma:PiTOFnsig20"));
+//    listRsn->Add(new TNamed("Rho","RhoNsigma:PiTOFnsig20"));
 
    return kTRUE;
 }

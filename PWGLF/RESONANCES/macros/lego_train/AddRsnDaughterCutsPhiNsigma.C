@@ -122,7 +122,7 @@ Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleT
       AddMonitorOutput(cuts->GetMonitorOutput(),opt);
    }
    if (isRsnMini) {
-      AliRsnMiniAnalysisTask *taskRsnMini = dynamic_cast<AliRsnMiniAnalysisTask *>(task);
+      AliRsnMiniAnalysisTask *taskRsnMini = (AliRsnMiniAnalysisTask*)task;
       if (taskRsnMini) {
          taskRsnMini->AddTrackCuts(cuts);
       }
