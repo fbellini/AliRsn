@@ -10,6 +10,8 @@ ifndef PACKCXXFLAGS
    PACKCXXFLAGS = $(CXXFLAGS)
 endif
 
+ALIARCH := $(shell $(RC) --arch)
+
 ALICEINC = -I.
 ALICEINC += -I$(PACKAGE) -I$(PACKAGE)/RESONANCES
 
@@ -84,12 +86,15 @@ endif
 ifeq ($(ALICEINC),-I.)
   ifneq ($(ALICE_ROOT),)
     ALICEINC += -I$(ALICE_ROOT)/include
-    ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(shell $(RC) --arch) $(ALICELIBS)
+    ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(ALIARCH) $(ALICELIBS)
   endif
 endif
 
+
+
 ALICEINC += -I$(ALICE_ROOT)/include
-ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(shell $(RC) --arch) $(ALICELIBS)
+ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(ALIARCH) $(ALICELIBS)
+ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(ALIARCH) $(ALICELIBS)
 
 # ifeq ($(PLATFORM),macosx)
 ROOTLIBDIR     := $(shell $(RC) --libdir)
