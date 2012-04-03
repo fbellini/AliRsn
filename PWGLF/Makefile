@@ -23,63 +23,81 @@ ifneq ($(STEERBase_INCLUDE),)
    ALICEINC += -I../$(STEERBase_INCLUDE)
    ALIPARLIBS += $(STEERBase_LIBS)
 else
+   ifneq ($(PACKAGE),STEERBase)
    ALICELIBS += -lSTEERBase
+   endif
 endif
 
 ifneq ($(ESD_INCLUDE),)
    ALICEINC += -I../$(ESD_INCLUDE)
    ALIPARLIBS += $(ESD_LIBS)
 else
+   ifneq ($(PACKAGE),ESD)
    ALICELIBS += -lESD
+   endif
 endif
 
 ifneq ($(AOD_INCLUDE),)
    ALICEINC += -I../$(AOD_INCLUDE)
    ALIPARLIBS += $(AOD_LIBS)
 else
+   ifneq ($(PACKAGE),AOD)
    ALICELIBS += -lAOD
+   endif
 endif
 
 ifneq ($(ANALYSIS_INCLUDE),)
    ALICEINC += -I../$(ANALYSIS_INCLUDE)
    ALIPARLIBS += $(ANALYSIS_LIBS)
 else
+   ifneq ($(PACKAGE),ANALYSIS)
    ALICELIBS += -lANALYSIS
+   endif
 endif
 
 ifneq ($(ANALYSISalice_INCLUDE),)
    ALICEINC += -I../$(ANALYSISalice_INCLUDE)
    ALIPARLIBS += $(ANALYSISalice_LIBS)
 else
+   ifneq ($(PACKAGE),ANALYSISalice)
    ALICELIBS += -lANALYSISalice
+   endif
 endif
 
 ifneq ($(EventMixing_INCLUDE),)
    ALICEINC += -I../$(EventMixng_INCLUDE)
    ALIPARLIBS += $(EventMixing_LIBS)
 else
+   ifneq ($(PACKAGE),EventMixing)
    ALICELIBS += -lEventMixing
+   endif
 endif
 
 ifneq ($(CORRFW_INCLUDE),)
    ALICEINC += -I../$(CORRFW_INCLUDE)
    ALIPARLIBS += $(CORRFW_LIBS)
 else
+   ifneq ($(PACKAGE),CORRFW)
    ALICELIBS += -lCORRFW
+   endif
 endif
 
 ifneq ($(PWGLFresonances_INCLUDE),)
    ALICEINC += -I../$(PWGLFresonances_INCLUDE)
    ALIPARLIBS += $(PWGLFresonances_LIBS)
 else
-   ALICELIBS += -lPWGLFresonances
+   ifneq ($(PACKAGE),PWGLFresonances)
+     ALICELIBS += -lPWGLFresonances
+   endif
 endif
 
 # ifneq ($(PWGLFresonancesdev_INCLUDE),)
 #    ALICEINC += -I../$(PWGLFresonancesdev_INCLUDE)
 #    ALIPARLIBS += $(PWGLFresonancesdev_LIBS)
 # else
+#    ifneq ($(PACKAGE),PWGLFresonancesdev)
 #    ALICELIBS += -lPWGLFresonancesdev
+#    endif
 # endif
 
 # only if no par file was loaded before
@@ -90,10 +108,7 @@ ifeq ($(ALICEINC),-I.)
   endif
 endif
 
-
-
 ALICEINC += -I$(ALICE_ROOT)/include
-ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(ALIARCH) $(ALICELIBS)
 ALIPARLIBS += -L$(ALICE_ROOT)/lib/tgt_$(ALIARCH) $(ALICELIBS)
 
 # ifeq ($(PLATFORM),macosx)
