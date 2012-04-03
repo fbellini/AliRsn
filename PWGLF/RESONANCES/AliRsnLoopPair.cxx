@@ -101,7 +101,7 @@ AliRsnLoopPair::~AliRsnLoopPair()
 }
 
 //_____________________________________________________________________________
-void AliRsnLoopPair::Print(Option_t* /*option*/) const
+void AliRsnLoopPair::Print(Option_t * /*option*/) const
 {
 //
 // Prints info about pair
