@@ -11,18 +11,26 @@ Bool_t AddRsnToManagerKStar(TList *listRsn) {
 
    // defautl PID - NSigma -> TPC=3 and TOF=3
    listRsn->Add(new TNamed("KStar","KStarNsigma"));
-   
-   // quality only
+
+//    // quality only
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:qualityonly"));
-   
-   // this is TPC only
+
+//    // this is TPC only
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig10_KTPCnsig20"));
-// 
+//
 //    // this is TOF only
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTOFnsig20_KTOFnsig20"));
-// 
+//
 //    // this is TPC only for KAON and TOF only for PI
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig20_KTOFnsig30"));
+
+//    // Subhash for train
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig10_KTPCnsig10"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig15_KTPCnsig15"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig20_KTPCnsig20"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig25_KTPCnsig25"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig30_KTPCnsig30"));
+//    // END Subhash for train
 
    return kTRUE;
 }
