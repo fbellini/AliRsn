@@ -11,6 +11,7 @@ ifndef PACKCXXFLAGS
 endif
 
 ALIARCH := $(shell $(RC) --arch)
+PARPATH := $(shell pwd)
 
 ALICEINC = -I.
 ALICEINC += -I$(PACKAGE) -I$(PACKAGE)/RESONANCES
@@ -24,7 +25,9 @@ ifneq ($(STEERBase_INCLUDE),)
    ALIPARLIBS += $(STEERBase_LIBS)
 else
    ifneq ($(PACKAGE),STEERBase)
-   ALICELIBS += -lSTEERBase
+     ALICELIBS += -lSTEERBase
+   else
+     ALIPARLIBS += -L$(PARPATH) -lSTEERBase
    endif
 endif
 
@@ -33,7 +36,9 @@ ifneq ($(ESD_INCLUDE),)
    ALIPARLIBS += $(ESD_LIBS)
 else
    ifneq ($(PACKAGE),ESD)
-   ALICELIBS += -lESD
+     ALICELIBS += -lESD
+   else
+     ALIPARLIBS += -L$(PARPATH) -lESD
    endif
 endif
 
@@ -42,7 +47,9 @@ ifneq ($(AOD_INCLUDE),)
    ALIPARLIBS += $(AOD_LIBS)
 else
    ifneq ($(PACKAGE),AOD)
-   ALICELIBS += -lAOD
+     ALICELIBS += -lAOD
+   else
+     ALIPARLIBS += -L$(PARPATH) -lAOD
    endif
 endif
 
@@ -51,7 +58,9 @@ ifneq ($(ANALYSIS_INCLUDE),)
    ALIPARLIBS += $(ANALYSIS_LIBS)
 else
    ifneq ($(PACKAGE),ANALYSIS)
-   ALICELIBS += -lANALYSIS
+     ALICELIBS += -lANALYSIS
+   else
+     ALIPARLIBS += -L$(PARPATH) -lANALYSIS
    endif
 endif
 
@@ -60,7 +69,9 @@ ifneq ($(ANALYSISalice_INCLUDE),)
    ALIPARLIBS += $(ANALYSISalice_LIBS)
 else
    ifneq ($(PACKAGE),ANALYSISalice)
-   ALICELIBS += -lANALYSISalice
+     ALICELIBS += -lANALYSISalice
+   else
+     ALIPARLIBS += -L$(PARPATH) -lANALYSISalice
    endif
 endif
 
@@ -69,7 +80,9 @@ ifneq ($(EventMixing_INCLUDE),)
    ALIPARLIBS += $(EventMixing_LIBS)
 else
    ifneq ($(PACKAGE),EventMixing)
-   ALICELIBS += -lEventMixing
+     ALICELIBS += -lEventMixing
+   else
+     ALIPARLIBS += -L$(PARPATH) -lEventMixing
    endif
 endif
 
@@ -78,7 +91,9 @@ ifneq ($(CORRFW_INCLUDE),)
    ALIPARLIBS += $(CORRFW_LIBS)
 else
    ifneq ($(PACKAGE),CORRFW)
-   ALICELIBS += -lCORRFW
+     ALICELIBS += -lCORRFW
+   else
+     ALIPARLIBS += -L$(PARPATH) -lCORRFW
    endif
 endif
 
@@ -88,6 +103,8 @@ ifneq ($(PWGLFresonances_INCLUDE),)
 else
    ifneq ($(PACKAGE),PWGLFresonances)
      ALICELIBS += -lPWGLFresonances
+   else     
+     ALIPARLIBS += -L$(PARPATH) -lPWGLFresonances
    endif
 endif
 
