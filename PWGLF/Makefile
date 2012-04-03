@@ -66,12 +66,12 @@ else
    ALICELIBS += -lCORRFW
 endif
 
-# ifneq ($(PWGLFresonances_INCLUDE),)
-#    ALICEINC += -I../$(PWGLFresonances_INCLUDE)
-#    ALIPARLIBS += $(PWGLFresonances_LIBS)
-# else
-#    ALICELIBS += -lPWGLFresonances
-# endif
+ifneq ($(PWGLFresonances_INCLUDE),)
+   ALICEINC += -I../$(PWGLFresonances_INCLUDE)
+   ALIPARLIBS += $(PWGLFresonances_LIBS)
+else
+   ALICELIBS += -lPWGLFresonances
+endif
 
 # ifneq ($(PWGLFresonancesdev_INCLUDE),)
 #    ALICEINC += -I../$(PWGLFresonancesdev_INCLUDE)
