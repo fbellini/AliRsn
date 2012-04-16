@@ -1,0 +1,2 @@
+#Aliroot revision - git revision 
+55766 ffc3e490946ccfd8320927e666b798c043a30e8a
