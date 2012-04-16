@@ -19,6 +19,7 @@
 
 class AliESDtrack;
 class AliAODTrack;
+class AliESDtrackCuts;
 
 class AliRsnCutTrackQuality : public AliRsnCut {
 public:
