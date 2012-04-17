@@ -566,7 +566,11 @@ void AliRsnMiniOutput::FillHistogram()
    } else if (obj->InheritsFrom(TH3F::Class())) {
       ((TH3F *)obj)->Fill(fComputed[0], fComputed[1], fComputed[2]);
    } else if (obj->InheritsFrom(THnSparseF::Class())) {
-      ((THnSparseF *)obj)->Fill(fComputed.GetArray());
+      THnSparseF *h = (THnSparseF *)obj;
+      for (Int_t iAxis = 0; iAxis<h->GetNdimensions(); iAxis++) {
+         if (fComputed.At(iAxis)>h->GetAxis(iAxis)->GetXmax() || fComputed.At(iAxis)<h->GetAxis(iAxis)->GetXmin()) return;
+      }
+      h->Fill(fComputed.GetArray());
    } else {
       AliError("No output initialized");
    }
