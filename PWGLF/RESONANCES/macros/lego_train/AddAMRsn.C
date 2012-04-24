@@ -82,7 +82,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
       // maybe we can put it in $ALICE_ROOT/ANALYSIS/macros/AddTaskPhysicsSelection.C
       if (multiInputHandler) {
          AliInputEventHandler *ih = multiInputHandler->GetFirstInputEventHandler();
-         ih->SetEventSelection(multiIH->GetEventSelection());
+         ih->SetEventSelection(multiInputHandler->GetEventSelection());
       }
    }
 
