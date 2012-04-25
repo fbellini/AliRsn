@@ -97,7 +97,7 @@ Bool_t AddAMRsn(TString analysisSource = "proof", TString analysisMode = "test",
    if (!RsnLoadMacro("AddMixingHandler.C")) return kFALSE;
    if (!analysisSource.CompareTo("grid")) {
       if (!RsnLoadMacro("RsnGridPlugin.C")) return kFALSE;
-      RsnGridPlugin();
+      RsnGridPlugin(analysisMode);
    }
 
    if (splitMgrByTask) {
