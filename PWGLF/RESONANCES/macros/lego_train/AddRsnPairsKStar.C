@@ -92,17 +92,17 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
    // [1] = mixing
    // [2] = like ++
    // [3] = like --
-   const Int_t num = 12;
-   Bool_t  use     [num] = { 1       ,  1       , useMixing, useMixing,  1      ,  1      ,  isMC   ,   isMC   ,  isMC   ,   isMC   ,  isMC    ,   isMC     };
-   Bool_t  useIM   [num] = { 1       ,  1       ,  1       ,  1       ,  1      ,  1      ,  1      ,   1      ,  0      ,   0      ,  1       ,   1        };
-   TString name    [num] = {"Unlike1", "Unlike2", "Mixing1", "Mixing2", "LikePP", "LikeMM", "Trues1",  "Trues2", "Res1"  ,  "Res2"  , "Mother1",  "Mother2" };
-   TString comp    [num] = {"PAIR"   , "PAIR"   , "MIX"    , "MIX"    , "PAIR"  , "PAIR"  , "TRUE"  ,  "TRUE"  , "TRUE"  ,  "TRUE"  , "MOTHER" ,  "MOTHER"  };
-   Char_t  charge1 [num] = {'+'      , '-'      , '+'      , '-'      , '+'     , '-'     , '+'     ,  '-'     , '+'     ,  '-'     , '+'      ,  '-'       };
-   Char_t  charge2 [num] = {'-'      , '+'      , '-'      , '+'      , '+'     , '-'     , '-'     ,  '+'     , '-'     ,  '+'     , '-'      ,  '+'       };
-   Int_t   cutID1  [num] = { iCutK   ,  iCutK   ,  iCutK   ,  iCutK   ,  iCutK  ,  iCutK  ,  iCutK  ,   iCutK  ,  iCutK  ,   iCutK  ,  iCutK  ,   iCutK     };
-   Int_t   cutID2  [num] = { iCutPi  ,  iCutPi  ,  iCutPi  ,  iCutPi  ,  iCutPi ,  iCutPi ,  iCutPi ,   iCutPi ,  iCutPi ,   iCutPi ,  iCutPi ,   iCutPi    };
+//    const Int_t num = 12;
+   Bool_t  use     [12] = { 1       ,  1       , useMixing, useMixing,  1      ,  1      ,  isMC   ,   isMC   ,  isMC   ,   isMC   ,  isMC    ,   isMC     };
+   Bool_t  useIM   [12] = { 1       ,  1       ,  1       ,  1       ,  1      ,  1      ,  1      ,   1      ,  0      ,   0      ,  1       ,   1        };
+   TString name    [12] = {"Unlike1", "Unlike2", "Mixing1", "Mixing2", "LikePP", "LikeMM", "Trues1",  "Trues2", "Res1"  ,  "Res2"  , "Mother1",  "Mother2" };
+   TString comp    [12] = {"PAIR"   , "PAIR"   , "MIX"    , "MIX"    , "PAIR"  , "PAIR"  , "TRUE"  ,  "TRUE"  , "TRUE"  ,  "TRUE"  , "MOTHER" ,  "MOTHER"  };
+   Char_t  charge1 [12] = {'+'      , '-'      , '+'      , '-'      , '+'     , '-'     , '+'     ,  '-'     , '+'     ,  '-'     , '+'      ,  '-'       };
+   Char_t  charge2 [12] = {'-'      , '+'      , '-'      , '+'      , '+'     , '-'     , '-'     ,  '+'     , '-'     ,  '+'     , '-'      ,  '+'       };
+   Int_t   cutID1  [12] = { iCutK   ,  iCutK   ,  iCutK   ,  iCutK   ,  iCutK  ,  iCutK  ,  iCutK  ,   iCutK  ,  iCutK  ,   iCutK  ,  iCutK  ,   iCutK     };
+   Int_t   cutID2  [12] = { iCutPi  ,  iCutPi  ,  iCutPi  ,  iCutPi  ,  iCutPi ,  iCutPi ,  iCutPi ,   iCutPi ,  iCutPi ,   iCutPi ,  iCutPi ,   iCutPi    };
 
-   for (Int_t i = 0; i < num; i++) {
+   for (Int_t i = 0; i < 12; i++) {
       if (!use[i]) continue;
       // create output
       AliRsnMiniOutput *out = taskRsnMini->CreateOutput(Form("%s_%s", suffix.Data(), name[i].Data()), outputType.Data(), comp[i].Data());
@@ -131,5 +131,53 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
          if (!isPP) out->AddAxis(centID, 100, 0.0, 100.0);
       }
    }
+   
+   / -- Create output for MC generated ------------------------------------------------------------
+   //
+
+   if (isMC) {
+      // create ouput
+      AliRsnMiniOutput *outMC = taskRsnMini->CreateOutput(Form("kstar_MCGen1%s", suffix.Data()), outputType.Data(), "MOTHER");
+      // selection settings
+      outMC->SetDaughter(0, AliRsnDaughter::kPion);
+      outMC->SetDaughter(1, AliRsnDaughter::kKaon);
+      outMC->SetMotherPDG(313);
+      outMC->SetMotherMass(part->Mass());
+      // pair cuts
+      if (cutsPair) outMC->SetPairCuts(cutsPair);
+      // axis X: invmass
+      outMC->AddAxis(imID, nIM, minIM, maxIM);
+      if (isFullOutput) {
+         // axis Y: transverse momentum
+         outMC->AddAxis(ptID, nPt, minPt, maxPt);
+         outMC->AddAxis(etaID, nEta, minEta, maxEta);
+         // axis Z: centrality
+         if (!isPP) outMC->AddAxis(centID, nCent, minCent, maxCent);
+      }
+   }
+
+
+
+   if (isMC) {
+      // create ouput
+      AliRsnMiniOutput *outMC1 = taskRsnMini->CreateOutput(Form("phi_MCGen2%s", suffix.Data()), outputType.Data(), "MOTHER");
+      // selection settings
+      outMC1->SetDaughter(0, AliRsnDaughter::kKaon);
+      outMC1->SetDaughter(1, AliRsnDaughter::kPion);
+      outMC1->SetMotherPDG(-313);
+      outMC1->SetMotherMass(part->Mass());
+      // pair cuts
+      if (cutsPair) outMC1->SetPairCuts(cutsPair);
+      // axis X: invmass
+      outMC1->AddAxis(imID, nIM, minIM, maxIM);
+      if (isFullOutput) {
+         // axis Y: transverse momentum
+         outMC1->AddAxis(ptID, nPt, minPt, maxPt);
+         outMC1->AddAxis(etaID, nEta, minEta, maxEta);
+         // axis Z: centrality
+         if (!isPP) outMC1->AddAxis(centID, nCent, minCent, maxCent);
+      }
+   }
+   
 
 }
