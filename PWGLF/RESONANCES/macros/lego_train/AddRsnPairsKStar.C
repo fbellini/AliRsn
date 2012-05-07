@@ -76,6 +76,10 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
    /* centrality       */ Int_t centID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
    /* eta              */ Int_t etaID = taskRsnMini->CreateValue(AliRsnMiniValue::kEta, kFALSE);
 
+      Int_t nIM   = 90; Double_t minIM   = 0.6, maxIM =  1.5;
+   Int_t nEta   = 400; Double_t minEta   = -0.5, maxEta =  0.5;
+   Int_t nPt   = 120; Double_t minPt   = 0.0, maxPt = 12.0;
+   Int_t nCent = 10; Double_t minCent = 0.0, maxCent = 100.0;
    //
    // -- Create all needed outputs -----------------------------------------------------------------
    //
@@ -119,16 +123,16 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       if (cutsPair) out->SetPairCuts(cutsPair);
       // axis X: invmass (or resolution)
       if (useIM[i])
-         out->AddAxis(imID, 90, 0.6, 1.5);
+         out->AddAxis(imID, nIM, minIM, maxIM);
       else
          out->AddAxis(resID, 200, -0.02, 0.02);
 
       if (isFullOutput) {
          // axis Y: transverse momentum
-         out->AddAxis(ptID, 100, 0.0, 10.0);
-         out->AddAxis(etaID, 400, -0.5, 0.5);
+         out->AddAxis(ptID, nPt, minPt, maxPt);
+         out->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
-         if (!isPP) out->AddAxis(centID, 100, 0.0, 100.0);
+         if (!isPP) out->AddAxis(centID, nCent, minCent, maxCent);
       }
    }
    
@@ -142,7 +146,7 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       outMC->SetDaughter(0, AliRsnDaughter::kPion);
       outMC->SetDaughter(1, AliRsnDaughter::kKaon);
       outMC->SetMotherPDG(313);
-      outMC->SetMotherMass(part->Mass());
+      outMC->SetMotherMass(massMother);
       // pair cuts
       if (cutsPair) outMC->SetPairCuts(cutsPair);
       // axis X: invmass
@@ -165,7 +169,7 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       outMC1->SetDaughter(0, AliRsnDaughter::kKaon);
       outMC1->SetDaughter(1, AliRsnDaughter::kPion);
       outMC1->SetMotherPDG(-313);
-      outMC1->SetMotherMass(part->Mass());
+      outMC1->SetMotherMass(massMother);
       // pair cuts
       if (cutsPair) outMC1->SetPairCuts(cutsPair);
       // axis X: invmass
