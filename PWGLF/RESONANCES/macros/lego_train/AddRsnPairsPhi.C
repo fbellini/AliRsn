@@ -84,7 +84,12 @@ void AddPairOutputMiniPhi(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, 
    AliRsnMiniAnalysisTask *taskRsnMini =  (AliRsnMiniAnalysisTask *)task;
 
    if (isPP) taskRsnMini->UseMultiplicity("QUALITY");
-   else taskRsnMini->UseCentrality("V0M");
+   else {
+      taskRsnMini->UseCentrality("V0M");
+      Int_t multID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
+      AliRsnMiniOutput *outMult = taskRsnMini->CreateOutput("eventMult", "HIST", "EVENT");
+      outMult->AddAxis(multID, 100, 0.0, 100.0);
+   }
    
 
    /* invariant mass   */ Int_t imID   = taskRsnMini->CreateValue(AliRsnMiniValue::kInvMass, kFALSE);
@@ -206,3 +211,6 @@ void AddPairOutputMiniPhi(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, 
 
 
 }
+
+
+

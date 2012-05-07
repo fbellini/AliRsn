@@ -32,7 +32,7 @@ void AddPairOutputKStar(AliRsnLoopPair *pair)
    Bool_t valid;
    Int_t isFullOutput = AliAnalysisManager::GetGlobalInt("rsnOutputFull",valid);
    Int_t isPP = AliAnalysisManager::GetGlobalInt("rsnIsPP",valid);
-   
+
    // axes
    AliRsnValuePair *axisIM = new AliRsnValuePair("IM", AliRsnValuePair::kInvMass);
    axisIM     ->SetBins(900, 0.6, 1.5);
@@ -68,15 +68,28 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
    Int_t isFullOutput = AliAnalysisManager::GetGlobalInt("rsnOutputFull",valid);
    Int_t useMixing = AliAnalysisManager::GetGlobalInt("rsnUseMixing",valid);
    Int_t isPP = AliAnalysisManager::GetGlobalInt("rsnIsPP",valid);
-   
+
    AliRsnMiniAnalysisTask *taskRsnMini =  (AliRsnMiniAnalysisTask *)task;
+
+   if (isPP) taskRsnMini->UseMultiplicity("QUALITY");
+   else {
+      taskRsnMini->UseCentrality("V0M");
+      Int_t multID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
+      AliRsnMiniOutput *outMult = taskRsnMini->CreateOutput("eventMult", "HIST", "EVENT");
+      outMult->AddAxis(multID, 100, 0.0, 100.0);
+   }
+
+
+
+
+
    /* invariant mass   */ Int_t imID   = taskRsnMini->CreateValue(AliRsnMiniValue::kInvMass, kFALSE);
    /* IM resolution    */ Int_t resID  = taskRsnMini->CreateValue(AliRsnMiniValue::kInvMassRes, kTRUE);
    /* transv. momentum */ Int_t ptID   = taskRsnMini->CreateValue(AliRsnMiniValue::kPt, kFALSE);
    /* centrality       */ Int_t centID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
    /* eta              */ Int_t etaID = taskRsnMini->CreateValue(AliRsnMiniValue::kEta, kFALSE);
 
-      Int_t nIM   = 90; Double_t minIM   = 0.6, maxIM =  1.5;
+   Int_t nIM   = 90; Double_t minIM   = 0.6, maxIM =  1.5;
    Int_t nEta   = 400; Double_t minEta   = -0.5, maxEta =  0.5;
    Int_t nPt   = 120; Double_t minPt   = 0.0, maxPt = 12.0;
    Int_t nCent = 10; Double_t minCent = 0.0, maxCent = 100.0;
@@ -135,8 +148,8 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
          if (!isPP) out->AddAxis(centID, nCent, minCent, maxCent);
       }
    }
-   
-   / -- Create output for MC generated ------------------------------------------------------------
+
+   // -- Create output for MC generated ------------------------------------------------------------
    //
 
    if (isMC) {
@@ -182,6 +195,7 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
          if (!isPP) outMC1->AddAxis(centID, nCent, minCent, maxCent);
       }
    }
-   
+
 
 }
+
