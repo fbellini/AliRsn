@@ -50,6 +50,7 @@ TList *RsnManager() {
    
    //============= ONLY for GRID ====================
    TString dsConfig;
+   Int_t globalTrainID=0;
 
    //   isPP = 0;
    //   dsConfig = "datasets-grid/LHC10h_p2_ESD.txt";
@@ -124,6 +125,7 @@ TList *RsnManager() {
 
    // RSN train settings for GRID
    AliAnalysisManager::SetGlobalStr("rsnTrainDSConfig",dsConfig.Data());
+   AliAnalysisManager::SetGlobalInt("rsnGlobalTrainID",globalTrainID);
 
    // root and aliroot version
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainROOTversion",rootver.Data());

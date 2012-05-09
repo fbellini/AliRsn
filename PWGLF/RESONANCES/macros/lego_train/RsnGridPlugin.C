@@ -7,6 +7,7 @@ void RsnGridPlugin(TString analysisMode) {
 
    Bool_t valid = kTRUE;
    TString dsConfig = AliAnalysisManager::GetGlobalStr("rsnTrainDSConfig",valid);
+   Int_t globalTrainID = AliAnalysisManager::GetGlobalInt("rsnGlobalTrainID",valid);
 
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
    if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
@@ -17,10 +18,11 @@ void RsnGridPlugin(TString analysisMode) {
    // getting latest train id
    TString rsnTrainName = gSystem->BaseName(dsConfig.Data());
    rsnTrainName.ReplaceAll(".txt","");
+   rsnTrainName.Append(TString::Format("/%03d",globalTrainID).Data());
 
    if (!gGrid) TGrid::Connect("alien://");
    if (!gGrid) return;
-   TGridResult *r = gGrid->Query(Form("%s/RsnTrain/%s",gGrid->GetHomeDirectory(),rsnTrainName.Data()),"*/analysis.root");
+   TGridResult *r = gGrid->Query(TString::Format("%s/RsnTrain/%s",gGrid->GetHomeDirectory(),rsnTrainName.Data()).Data(),"*/analysis.root");
    Int_t idRsnTrain = 0;
    if (r) {
       TString s = r->GetKey(r->GetSize()-1,"lfn");
@@ -31,8 +33,8 @@ void RsnGridPlugin(TString analysisMode) {
    }
    rsnTrainName.Append(Form("/%03d",idRsnTrain));
 
-   TString rsnTrainWkDir = Form("RsnTrain/%s",rsnTrainName.Data());
-   Info("RsnGridPlugin()",Form("RSN Train directory : %s%s",gGrid->GetHomeDirectory(),rsnTrainWkDir.Data()));
+   TString rsnTrainWkDir = TString::Format("RsnTrain/%s",rsnTrainName.Data()).Data();
+   Info("RsnGridPlugin()",TString::Format("RSN Train directory : %s%s",gGrid->GetHomeDirectory(),rsnTrainWkDir.Data()).Data());
 
    plugin->SetGridWorkingDir(rsnTrainWkDir.Data());
    plugin->SetGridOutputDir("output"); // In this case will be $HOME/work/output
