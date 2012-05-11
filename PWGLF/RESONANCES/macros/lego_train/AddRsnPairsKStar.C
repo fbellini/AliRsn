@@ -77,22 +77,26 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       Int_t multID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
       AliRsnMiniOutput *outMult = taskRsnMini->CreateOutput("eventMult", "HIST", "EVENT");
       outMult->AddAxis(multID, 100, 0.0, 100.0);
+      Int_t paID = taskRsnMini->CreateValue(AliRsnMiniValue::kPlaneAngle, kFALSE);
+      AliRsnMiniOutput *outPa = taskRsnMini->CreateOutput("planeAngle", "HIST", "EVENT");
+      outPa->AddAxis(paID, 100, 0, TMath::Pi());
    }
-
-
-
-
 
    /* invariant mass   */ Int_t imID   = taskRsnMini->CreateValue(AliRsnMiniValue::kInvMass, kFALSE);
    /* IM resolution    */ Int_t resID  = taskRsnMini->CreateValue(AliRsnMiniValue::kInvMassRes, kTRUE);
    /* transv. momentum */ Int_t ptID   = taskRsnMini->CreateValue(AliRsnMiniValue::kPt, kFALSE);
    /* centrality       */ Int_t centID = taskRsnMini->CreateValue(AliRsnMiniValue::kMult, kFALSE);
    /* eta              */ Int_t etaID = taskRsnMini->CreateValue(AliRsnMiniValue::kEta, kFALSE);
+   /* rapidity         */ Int_t yID = taskRsnMini->CreateValue(AliRsnMiniValue::kY, kFALSE);
+
+   Bool_t useRapidity = kTRUE;
 
    Int_t nIM   = 90; Double_t minIM   = 0.6, maxIM =  1.5;
+   Int_t nRes   = 200; Double_t minRes   = -0.02, maxRes =  0.02;
    Int_t nEta   = 400; Double_t minEta   = -0.5, maxEta =  0.5;
+   Int_t nY   = 16; Double_t minY   = -0.8, maxY =  0.8;
    Int_t nPt   = 120; Double_t minPt   = 0.0, maxPt = 12.0;
-   Int_t nCent = 10; Double_t minCent = 0.0, maxCent = 100.0;
+   Int_t nCent = 100; Double_t minCent = 0.0, maxCent = 100.0;
    //
    // -- Create all needed outputs -----------------------------------------------------------------
    //
@@ -138,12 +142,13 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       if (useIM[i])
          out->AddAxis(imID, nIM, minIM, maxIM);
       else
-         out->AddAxis(resID, 200, -0.02, 0.02);
+         out->AddAxis(resID, nRes, minRes, maxRes);
 
       if (isFullOutput) {
          // axis Y: transverse momentum
          out->AddAxis(ptID, nPt, minPt, maxPt);
-         out->AddAxis(etaID, nEta, minEta, maxEta);
+         if (useRapidity) out->AddAxis(yID, nY, minY, maxY);
+         else  out->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
          if (!isPP) out->AddAxis(centID, nCent, minCent, maxCent);
       }
@@ -167,7 +172,8 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       if (isFullOutput) {
          // axis Y: transverse momentum
          outMC->AddAxis(ptID, nPt, minPt, maxPt);
-         outMC->AddAxis(etaID, nEta, minEta, maxEta);
+         if (useRapidity) outMC->AddAxis(yID, nY, minY, maxY);
+         else  outMC->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
          if (!isPP) outMC->AddAxis(centID, nCent, minCent, maxCent);
       }
@@ -190,7 +196,8 @@ void AddPairOutputMiniKStar(AliAnalysisTaskSE *task,Bool_t isMC,Bool_t isMixing,
       if (isFullOutput) {
          // axis Y: transverse momentum
          outMC1->AddAxis(ptID, nPt, minPt, maxPt);
-         outMC1->AddAxis(etaID, nEta, minEta, maxEta);
+         if (useRapidity) outMC1->AddAxis(yID, nY, minY, maxY);
+         else  outMC1->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
          if (!isPP) outMC1->AddAxis(centID, nCent, minCent, maxCent);
       }

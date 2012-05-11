@@ -10,13 +10,16 @@ Bool_t AddRsnToManagerKStar(TList *listRsn) {
    //    listRsn->Add(new TNamed("<Name>:mon","<CutName>:<opt>"));
 
    // defautl PID - NSigma -> TPC=3 and TOF=3
-   listRsn->Add(new TNamed("KStar","KStarNsigma"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma"));
 
 //    // quality only
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:qualityonly"));
 
 //    // this is TPC only
-//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig10_KTPCnsig20"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig10_KTPCnsig10"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig15_KTPCnsig15"));
+//    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig20_KTPCnsig20"));
+   listRsn->Add(new TNamed("KStar","KStarNsigma:PiTPCnsig25_KTPCnsig25_eta"));
 //
 //    // this is TOF only
 //    listRsn->Add(new TNamed("KStar","KStarNsigma:PiTOFnsig20_KTOFnsig20"));

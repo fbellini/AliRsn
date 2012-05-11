@@ -1,4 +1,5 @@
 #ifndef __CINT__
+#include <AliRsnCutTrackQuality.h>
 #endif
 Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleType type2,TString opt,Bool_t isRsnMini=kFALSE,AliRsnInputHandler *rsnIH=0,AliAnalysisTaskSE *task=0)
 {
@@ -7,6 +8,8 @@ Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleT
 
    Bool_t valid = kTRUE;
    Int_t isPP = AliAnalysisManager::GetGlobalInt("rsnIsPP",valid);
+   Int_t useCommonQualityCut = AliAnalysisManager::GetGlobalInt("rsnCommonQualityCut",valid);
+
 
    Bool_t usePPCut = kFALSE;
 
@@ -73,9 +76,12 @@ Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleT
    AliRsnCutSet *cuts = new AliRsnCutSet(cutname.Data(), AliRsnTarget::kDaughter);
 
    TString scheme="";
-
    AliRsnCutTrackQuality *qualityCut = new AliRsnCutTrackQuality("cutQuatityK");
-   qualityCut->SetDefaults2010();
+   if (useCommonQualityCut>=0) {
+      qualityCut->SetAODTestFilterBit(useCommonQualityCut);
+   } else {
+      qualityCut->SetDefaults2010();
+   }
    cuts->AddCut(qualityCut);
    if (!scheme.IsNull()) scheme += "&";
    scheme += qualityCut->GetName();
@@ -96,7 +102,7 @@ Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleT
       if (!scheme.IsNull()) scheme += "&";
       scheme += cutKTOF->GetName();
    }
-   
+
    if (useEta) {
       Printf("Adding ETA ...");
       AliRsnValueDaughter *valEta = new AliRsnValueDaughter(Form("val%sETA%s",AliPID::ParticleName(type1),opt.Data()),AliRsnValueDaughter::kEta);
@@ -122,7 +128,7 @@ Int_t AddRsnDaughterCutsPhiNsigma(AliPID::EParticleType type1,AliPID::EParticleT
       AddMonitorOutput(cuts->GetMonitorOutput(),opt);
    }
    if (isRsnMini) {
-      AliRsnMiniAnalysisTask *taskRsnMini = (AliRsnMiniAnalysisTask*)task;
+      AliRsnMiniAnalysisTask *taskRsnMini = (AliRsnMiniAnalysisTask *)task;
       if (taskRsnMini) {
          taskRsnMini->AddTrackCuts(cuts);
       }
