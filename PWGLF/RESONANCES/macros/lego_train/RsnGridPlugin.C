@@ -27,7 +27,7 @@ void RsnGridPlugin(TString analysisMode) {
    // getting latest train id
    TString rsnTrainName = gSystem->BaseName(dsConfig.Data());
    rsnTrainName.ReplaceAll(".txt","");
-   rsnTrainName.Append(TString::Format("/%03d",globalTrainID).Data());
+   rsnTrainName.Append(TString::Format("/%03d/%d_%d",globalTrainID,numRunsSkip,numRuns).Data());
 
    if (!gGrid) TGrid::Connect("alien://");
    if (!gGrid) return;
@@ -73,7 +73,7 @@ void RsnGridPlugin(TString analysisMode) {
    plugin->SetOverwriteMode(kFALSE);
    //    plugin->SetKeepLogs(kTRUE);
 
-   RsnSetData(plugin,dsConfig,1000);
+   RsnSetData(plugin,dsConfig,numRuns,numRunsSkip,1000);
 
    plugin->SetSplitMaxInputFileNumber(25);
 
