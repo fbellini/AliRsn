@@ -55,6 +55,8 @@ TList *RsnManager() {
    //============= ONLY for GRID ====================
    TString dsConfig = "datasets-grid/LHC11e3a_AOD074.txt";
    Int_t globalTrainID=0;
+   Int_t numRuns = 1000;
+   Int_t numRunsSkip = 0;
 
    //================================================
 
@@ -114,6 +116,8 @@ TList *RsnManager() {
    // RSN train settings for GRID
    AliAnalysisManager::SetGlobalStr("rsnTrainDSConfig",dsConfig.Data());
    AliAnalysisManager::SetGlobalInt("rsnGlobalTrainID",globalTrainID);
+   AliAnalysisManager::SetGlobalInt("rsnGridNumRuns",numRuns);
+   AliAnalysisManager::SetGlobalInt("rsnGridNumRunsSkip",numRunsSkip);
 
    // root and aliroot version
    AliAnalysisManager::SetGlobalStr("rsnLegoTrainROOTversion",rootver.Data());

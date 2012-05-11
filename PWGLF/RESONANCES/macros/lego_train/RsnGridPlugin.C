@@ -9,11 +9,20 @@ void RsnGridPlugin(TString analysisMode) {
    TString dsConfig = AliAnalysisManager::GetGlobalStr("rsnTrainDSConfig",valid);
    Int_t globalTrainID = AliAnalysisManager::GetGlobalInt("rsnGlobalTrainID",valid);
 
+   Int_t numRuns = AliAnalysisManager::GetGlobalInt("rsnGridNumRuns",valid);
+   Int_t numRunsSkip = AliAnalysisManager::GetGlobalInt("rsnGridNumRunsSkip",valid);
+
    AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
-   if (!mgr) { Printf("Error[RsnGridPlugin] mgr is null !!!"); return; }
+   if (!mgr) {
+      Printf("Error[RsnGridPlugin] mgr is null !!!");
+      return;
+   }
 
    AliAnalysisAlien *plugin = (AliAnalysisAlien *) mgr->GetGridHandler();
-   if (!plugin) { Printf("Error[RsnGridPlugin] : plugin is null !!!"); return; }
+   if (!plugin) {
+      Printf("Error[RsnGridPlugin] : plugin is null !!!");
+      return;
+   }
 
    // getting latest train id
    TString rsnTrainName = gSystem->BaseName(dsConfig.Data());
@@ -71,7 +80,7 @@ void RsnGridPlugin(TString analysisMode) {
    //   Fatal("RsnDataSet","No dataset found !!!");
 }
 
-void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster = 1000) {
+void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t numRuns = 1000,Int_t numRunsSkip=0,Int_t maxRunsPerMaster = 1000) {
 
    Bool_t dsFound = kTRUE;
    Int_t nRunsPerMaster = 0;
@@ -116,9 +125,19 @@ void RsnSetData(AliAnalysisAlien *plugin,TString dsConf,Int_t maxRunsPerMaster =
             in >> line;
          }
          if (isRun) {
-            //            Printf("Adding RUN : %s",line.Data());
-            plugin->AddRunNumber(line.Data());
-            nRunsPerMaster++;
+            if (numRunsSkip>0) {
+               numRunsSkip--;
+               continue;
+            } else {
+               if (nRunsPerMaster < numRuns ) {
+                  Printf("Adding RUN : %s",line.Data());
+                  plugin->AddRunNumber(line.Data());
+                  nRunsPerMaster++;
+               } else {
+                  break;
+               }
+
+            }
          }
       }
    } else {
@@ -138,3 +157,4 @@ void GetParameterFromConfig(TString &str,TString token="=") {
    if (strObj) str = strObj->GetString();
    else str = "";
 }
+
