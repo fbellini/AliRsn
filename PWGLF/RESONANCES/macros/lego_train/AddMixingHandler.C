@@ -15,6 +15,7 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,AliAnalysis
 
       // settings
       if (isPP) {
+//         taskRsn->UseMultiplicity("TRACKS");
          taskRsn->UseMultiplicity("QUALITY");
          taskRsn->SetMaxDiffMult(1.0);
       } else {
@@ -25,9 +26,8 @@ void AddMixingHandler ( AliMultiInputEventHandler *multiInputHandler,AliAnalysis
       taskRsn->UseContinuousMix();
       //task->UseBinnedMix();
       taskRsn->SetNMix(mixNum);
-      taskRsn->SetMaxDiffVz(5.0);
-      taskRsn->SetMaxDiffMult(10.0);
-      taskRsn->SetMaxDiffAngle(30.0 * TMath::DegToRad());
+      taskRsn->SetMaxDiffVz(1.0);
+//      taskRsn->SetMaxDiffAngle(30.0 * TMath::DegToRad());
       
 
    } else {
