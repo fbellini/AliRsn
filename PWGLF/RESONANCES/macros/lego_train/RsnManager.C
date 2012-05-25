@@ -145,7 +145,7 @@ Bool_t RsnManagerLoadMacro(TString macro,TString path="") {
    if (lego_path.IsNull()) {
       Bool_t valid;
       lego_path = AliAnalysisManager::GetGlobalStr("rsnLegoTrainPath",valid);
-      if (!valid) lego_path = "$ALICE_ROOT/PWG2/RESONANCES/macros/lego_train";
+      if (!valid) lego_path = "$ALICE_ROOT/PWGLF/RESONANCES/macros/lego_train";
    }
    if (!gSystem->AccessPathName(macro.Data())) {
       gROOT->LoadMacro(macro.Data());
