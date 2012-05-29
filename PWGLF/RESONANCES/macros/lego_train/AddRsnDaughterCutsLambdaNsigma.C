@@ -102,7 +102,7 @@ Int_t AddRsnDaughterCutsLambdaNsigma(AliPID::EParticleType type1,AliPID::EPartic
    if (!opt.IsNull()) cutname += Form("_%s",opt.Data());
    AliRsnCutSet *cutsP = new AliRsnCutSet(cutname.Data(), AliRsnTarget::kDaughter);
 
-   AliRsnCutTrackQuality *qualityCutP = new AliRsnCutTrackQuality("cutQuatity{");
+   AliRsnCutTrackQuality *qualityCutP = new AliRsnCutTrackQuality("cutQuatityP");
    if (useCommonQualityCut>=0) {
       qualityCutP->SetAODTestFilterBit(useCommonQualityCut);
    } else {
