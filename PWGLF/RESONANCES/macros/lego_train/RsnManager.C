@@ -14,10 +14,13 @@ TList *RsnManager() {
    
    Int_t usePhysSel        = 1;
    Int_t useCentralityTask = 0;
-   Int_t useEventPlaneTask = 1;
+   Int_t useEventPlaneTask = 0;
+   
+   Double_t eventCutVertex = 10.0;
    
    // useCommonQualityCut=-1  -> Defaultcuts for 2010
-   Int_t useCommonQualityCut = 5;
+   Int_t useCommonQualityCut = -1;
+   useCommonQualityCut = 5;
 
    Int_t useEventMixPar    = 0;
    Int_t useRsnPar         = 0;
@@ -108,7 +111,7 @@ TList *RsnManager() {
    AliAnalysisManager::SetGlobalInt("rsnOutputFull",fullOutput);
    AliAnalysisManager::SetGlobalInt("rsnUseMCMomentum",mcMomentum);
    AliAnalysisManager::SetGlobalInt("rsnUseMCMonitoring",mcMon);
-
+   AliAnalysisManager::SetGlobalDbl("rsnEventCutVertex",eventCutVertex);
 
    // expert options (don't change)
    AliAnalysisManager::SetGlobalInt("rsnMixPrintRefresh",-1);
