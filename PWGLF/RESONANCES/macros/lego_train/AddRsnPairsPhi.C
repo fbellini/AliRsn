@@ -185,8 +185,8 @@ void AddPairOutputMiniPhi(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, 
       if (isFullOutput) {
          // axis Y: transverse momentum
          outRes->AddAxis(ptID, nPt, minPt, maxPt);
-         if (useRapidity) out->AddAxis(yID, nY, minY, maxY);
-         else  out->AddAxis(etaID, nEta, minEta, maxEta);
+         if (useRapidity) outRes->AddAxis(yID, nY, minY, maxY);
+         else  outRes->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
          if (!isPP) outRes->AddAxis(centID, nCent, minCent, maxCent);
       }
@@ -211,8 +211,8 @@ void AddPairOutputMiniPhi(AliAnalysisTaskSE *task, Bool_t isMC,Bool_t isMixing, 
       if (isFullOutput) {
          // axis Y: transverse momentum
          outMC->AddAxis(ptID, nPt, minPt, maxPt);
-         if (useRapidity) out->AddAxis(yID, nY, minY, maxY);
-         else  out->AddAxis(etaID, nEta, minEta, maxEta);
+         if (useRapidity) outMC->AddAxis(yID, nY, minY, maxY);
+         else  outMC->AddAxis(etaID, nEta, minEta, maxEta);
          // axis Z: centrality
          if (!isPP) outMC->AddAxis(centID, nCent, minCent, maxCent);
       }
